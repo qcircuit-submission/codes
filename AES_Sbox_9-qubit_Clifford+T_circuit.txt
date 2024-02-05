@@ -1,7 +1,8 @@
-### A 9-qubit Clifford+T circuit for the AES S-box. 
-### Here, 9 qubits are labelled as number 0,1,2,3,4,5,6,7,8.
-### NOT is a Pauli-X gate, TD is the inverse of T gate.
-### CNOT(a,b) means a CNOT gate with the a-th qubit as the target qubit.
+##################### A 9-qubit Clifford+T circuit for the AES S-box #################
+
+# Qubits are labelled as number 0,1,2,3,4,5,6,7,8.
+# NOT is a Pauli-X gate, TD is the adjoint of T gate.
+# CNOT(a,b) means a CNOT gate with the qubit b as the target qubit.
 
 #----------- Layer: 1 #--------------#
 NOT(4), CNOT(3,5), H(8)
