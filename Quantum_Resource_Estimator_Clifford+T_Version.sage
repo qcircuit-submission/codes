@@ -1,8 +1,12 @@
-
+############################## A Resource Estimator for a detailed Clifford+T circuit ###########################
+############################## In the output layer structure, the number of Toffoli layers is equal to the Toffoli-depth #####################
 
 # Gate form : [operation,controlled,target, depth, T-depth]
-# operation: 'T', 'TD', 'S', 'SD', 'H', 'CNOT', 'X'
-# 
+# operation: 'T', 'TD', 'S', 'SD', 'H', 'CNOT', 'X', 'MM'
+# Here 'MM(a,b,c)' is used for QAND^{dagger}. The operations are:
+# First measure qubit a, the apply gates on qubits a,b,c depenting on the measurement result.
+# By this multiple measurment, we ensure that in resource estimation for depth, the subsequent gates will not be applied before the measurement of qubit a.
+
 
 import numpy as np
 import re
