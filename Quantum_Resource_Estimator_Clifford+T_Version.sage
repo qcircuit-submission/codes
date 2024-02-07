@@ -773,7 +773,7 @@ def Metrics_Present(Gate_seq, width):
 	return Layers
 	
 	
-INPUT_CIRCUIT = AES_AC23_2_reorder
+INPUT_CIRCUIT = AES_T3_C0
 
 
 OUTPUT_FILE = "Layer_Structure_CliffordT.txt"
