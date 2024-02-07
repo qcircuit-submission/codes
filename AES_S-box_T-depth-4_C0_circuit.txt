@@ -1,4 +1,4 @@
-################# A compact T-depth-4 out-of-place C*-circuit (including uncomputation) for the AES-Sbox ##################
+################# A compact T-depth-4 out-of-place C0-circuit (including uncomputation) for the AES-Sbox ##################
 
 # Qubits are labelled as number 0,1,...,83, where the inputs are 0,1,2,3,4,5,6,7, and outputs are 61,58,60,59,62,63,64,65.
 # TD is the adjoint of T gate. 
