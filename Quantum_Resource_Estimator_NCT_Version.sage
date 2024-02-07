@@ -1,8 +1,8 @@
 ############################## A Resource Estimator for a detailed NCT circuit ###########################
 ############################## In the output layer structure, the number of Toffoli layers is equal to the Toffoli-depth #####################
 
-# Gate form : [operation,controlled,target, depth, T-depth]
-# operation: 'T', 'TD', 'S', 'SD', 'H', 'CNOT', 'X'
+# Gate form : [operation,controlled,target, depth, Toffoli-depth]
+# Gates: 'X': NOT gate ; 'CNOT'; 'TF': Toffoli gate
 # 
 
 import numpy as np
