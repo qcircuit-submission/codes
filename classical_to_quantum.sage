@@ -1,6 +1,6 @@
 # coding : utf-8
 
-# The Algorithm "ClassicalToQuantum"
+################# A SageMath implementation for the Algorithm "ClassicalToQuantum" ####################
 # Three instances: 
 # 1) The AND-depth-4 and AND-count-34 classical circuit for the AES S-box (Boyar and Peralta's S-box)
 # 2) The AND-depth-3 and AND-count-76 classical circuit for the AES S-box introduced in Section 5.1
