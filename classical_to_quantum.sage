@@ -4,7 +4,7 @@
 # Three instances: 
 # 1) The AND-depth-4 and AND-count-34 classical circuit for the AES S-box (Boyar and Peralta's S-box)
 # 2) The AND-depth-3 and AND-count-42 classical circuit for the AES S-box introduced in Section 5.2
-# 3) The AND-depth-3 and AND-count-78 classical circuit for the AES S-box introduced in Section 5.2
+# 3) The AND-depth-3 and AND-count-78 classical circuit for the AES S-box introduced in ASIACRYPT 2022
 
 # need Sagemath environment
 from sage.all import *
@@ -599,7 +599,7 @@ AES_Sbox_ANDDepth3_78AND = ["T1=X0+X3", "T2=X0+X5", "T3=X0+X6", "T4=X3+X5", "T5=
 # Three instances: 
 # 1) The AND-depth-4 and AND-count-34 classical circuit for the AES S-box (Boyar and Peralta's S-box)
 # 2) The AND-depth-3 and AND-count-42 classical circuit for the AES S-box introduced in Section 5.2
-# 3) The AND-depth-3 and AND-count-78 classical circuit for the AES S-box introduced in Section 5.2
+# 3) The AND-depth-3 and AND-count-78 classical circuit for the AES S-box introduced in ASIACRYPT 2022
 
 # AND_numbers=[9,3,4,18]
 qc_info1 = classical_to_quantum(n=8, m=8, s=4, C=AES_Sbox_ANDDepth4_34AND)
