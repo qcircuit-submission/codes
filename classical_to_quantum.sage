@@ -3,8 +3,8 @@
 ################# A SageMath implementation for the Algorithm "ClassicalToQuantum" ####################
 # Three instances: 
 # 1) The AND-depth-4 and AND-count-34 classical circuit for the AES S-box (Boyar and Peralta's S-box)
-# 2) The AND-depth-3 and AND-count-76 classical circuit for the AES S-box introduced in Section 5.1
-# 3) The AND-depth-3 and AND-count-42 classical circuit for the AES S-box introduced in Section 5.2
+# 2) The AND-depth-3 and AND-count-42 classical circuit for the AES S-box introduced in Section 5.2
+# 3) The AND-depth-3 and AND-count-78 classical circuit for the AES S-box introduced in Section 5.2
 
 # need Sagemath environment
 from sage.all import *
@@ -374,19 +374,19 @@ def output_part(n: int, m: int, cur_dim: int, cur_states: list, Bs: list, By: li
     Toffoli_qubits = zero_qubits[a:a+(ns-m)] + zero_qubits[-m:]
     
     # the inputs and outputs of the CNOT sub-circuit
-    Si_pre_states = nonzero_states[:] + zero_states[:a+clean_for_Toffoli_outputs]      
-    Si_states = select_step(initial_states=Bs, candidate_states=Si_pre_states
+    Ss_pre_states = nonzero_states[:] + zero_states[:a+clean_for_Toffoli_outputs]      
+    Ss_states = select_step(initial_states=Bs, candidate_states=Ss_pre_states
                             , dim=dim, target_n=CNOT_n-clean_for_Toffoli_outputs)
     # clean up Toffoli outputs
-    Si_states += ["" for i in range(clean_for_Toffoli_outputs)]
+    Ss_states += ["" for i in range(clean_for_Toffoli_outputs)]
     
     # find a CNOT circuit(invertible matrix MT) that maps S'[s-1] to S'[s]
-    MT = get_state_transform_matrix(S_pre=Si_pre_states, S=Si_states, dim=dim)
+    MT = get_state_transform_matrix(S_pre=Ss_pre_states, S=Ss_states, dim=dim)
   
     # update states of CNOT and Toffoli layer
     for j in range(CNOT_n):
         cj = CNOT_qubits[j]
-        states[cj] = Si_states[j]
+        states[cj] = Ss_states[j]
     
     # ni Toffoli variables(use "M") 
     for j in range(ns):
@@ -495,20 +495,20 @@ def classical_to_quantum(n: int, m: int, s: int, C: list):
         Toffoli_qubits = zero_qubits[ai:ai+ni]
         
         # the inputs and outputs of CNOT sub-circuit
-        Ss_pre_states = nonzero_states[:] + zero_states[:ai+clean_for_Toffoli_outputs]      
-        Ss_states = select_step(initial_states=B[i], candidate_states=Ss_pre_states
+        Si_pre_states = nonzero_states[:] + zero_states[:ai+clean_for_Toffoli_outputs]      
+        Si_states = select_step(initial_states=B[i], candidate_states=Si_pre_states
                                 , dim=dim, target_n=CNOT_n-clean_for_Toffoli_outputs)
         
         # clean up Toffoli outputs
-        Ss_states += ["" for j in range(clean_for_Toffoli_outputs)]
+        Si_states += ["" for j in range(clean_for_Toffoli_outputs)]
         
         # find a CNOT circuit (invertible matrix MT) that maps S'[i-1] to S'[i]
-        MT = get_state_transform_matrix(S_pre=Ss_pre_states, S=Ss_states, dim=dim)
+        MT = get_state_transform_matrix(S_pre=Si_pre_states, S=Si_states, dim=dim)
         
         # update states of the CNOT and Toffoli layer
         for j in range(CNOT_n):
             cj = CNOT_qubits[j]
-            states[cj] = Ss_states[j]
+            states[cj] = Si_states[j]
         
         # ni Toffoli variables(use "M") 
         for j in range(ni):
@@ -598,8 +598,8 @@ AES_Sbox_ANDDepth3_78AND = ["T1=X0+X3", "T2=X0+X5", "T3=X0+X6", "T4=X3+X5", "T5=
 
 # Three instances: 
 # 1) The AND-depth-4 and AND-count-34 classical circuit for the AES S-box (Boyar and Peralta's S-box)
-# 2) The AND-depth-3 and AND-count-76 classical circuit for the AES S-box introduced in Section 5.1
-# 3) The AND-depth-3 and AND-count-42 classical circuit for the AES S-box introduced in Section 5.2
+# 2) The AND-depth-3 and AND-count-42 classical circuit for the AES S-box introduced in Section 5.2
+# 3) The AND-depth-3 and AND-count-78 classical circuit for the AES S-box introduced in Section 5.2
 
 # AND_numbers=[9,3,4,18]
 qc_info1 = classical_to_quantum(n=8, m=8, s=4, C=AES_Sbox_ANDDepth4_34AND)
