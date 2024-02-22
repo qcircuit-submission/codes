@@ -1,6 +1,7 @@
 ##################### A 9-qubit Clifford+T circuit for the AES S-box #################
 
 # Qubits are labelled as number 0,1,2,3,4,5,6,7,8.
+# Inputs: x0,x1,x2,x3,x4,x5,x6,x7,0 ; Outputs: y4,y2,y0,y1,y3,y5,y6,y7,0, where yi is the i-th bit of the S-box outputs.
 # NOT is a Pauli-X gate, TD is the adjoint of T gate.
 # CNOT(a,b) means a CNOT gate with the qubit b as the target qubit.
 
