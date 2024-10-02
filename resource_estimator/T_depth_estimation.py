@@ -2,7 +2,7 @@
 ############################## In the output layer structure, the number of Toffoli layers is equal to the Toffoli-depth #####################
 
 # Gate form : [operation,controlled,target, depth, T-depth]
-# Gates: 'T', 'TD': T dagger, 'S', 'SD': S dagger, 'H', 'CNOT', 'X': Pauli-X, 'MM': Multiple Measurement
+# Gates: 'T', 'TD': T dagger, 'S', 'SD': S dagger, 'H', 'CNOT', 'X': Pauli-X, 'Y': Pauli-Y, 'Z': Pauli-Z, 'MM': Multiple Measurement
 # Here 'MM(a,b,c)' is used for QAND^{dagger}. The operations are:
 # First measure qubit a, the apply gates on qubits a,b,c depenting on the measurement result.
 # By this multiple measurment, we ensure that in resource estimation for depth, the subsequent gates will not be applied before the measurement of qubit a.
@@ -48,86 +48,6 @@ def dagger_check(op1, op2):
 			return False
 	else :
 		return False
-
-# def merge_layer(layer1, layer2):
-# 	flag_merge = False
-# 	layer1_index = [0]*len(layer1)
-# 	layer2_index = [0]*len(layer2)
-# 	for i in range(len(layer1)):
-# 		gate = layer1[i]
-# 		if gate[0] == "CNOT" or gate[0] == "H" or gate[0] == "X":
-# 			for j in range(len(layer2)):
-# 				if layer2[j][:2] == gate[:2]:
-# 					flag_merge = True
-# 					layer1_index[i] = 1  # 1: delete
-# 					layer2_index[j] = 1
-# 		elif gate[0] == "T" or gate[0] == "TD":
-# 			for j in range(len(layer2)):
-# 				if dagger_check(gate,layer2[j]):
-# 					flag_merge = True
-# 					layer1_index[i] = 1
-# 					layer2_index[j] = 1
-# 				if layer2[j][:2] == gate[:2]:
-# 					flag_merge = True
-# 					layer1_index[i] = 2  # 2: T^2->S, TD^2->SD
-# 					layer2_index[j] = 1  
-# 		else:
-# 			for j in range(len(layer2)):
-# 				if dagger_check(gate,layer2[j]):
-# 					flag_merge = True
-# 					layer1_index[i] = 1
-# 					layer2_index[j] = 1
-# 	for i in range(len(layer1)-1,-1,-1):
-# 		if layer1_index[i] == 1:
-# 			layer1.pop(i)
-# 		elif layer1_index[i] == 2:
-# 			if layer1[i][0] == "T":
-# 				layer1[i][0] = "S"
-# 			else :
-# 				layer1[i][0] = "SD"
-# 	for i in range(len(layer2)-1,-1,-1):
-# 		if layer2_index[i] == 1:
-# 			layer2.pop(i)
-# 	return flag_merge
-
-# def new_Simplify_GateSequence(Gate_seq, width):
-# 	Layers = Layer_Classify(Gate_seq,width,0)
-
-# 	new_seq = []
-	
-# 	for i in range(20,40):	
-# 		print(Layers[i])
-# 	for layer in Layers:
-# 		new_seq = new_seq+layer
-
-# 	#print(new_seq)
-
-# 	flag = True
-# 	while flag == True:
-# 		flag = False
-# 		for i in range(len(Layers)-1):
-# 			layer = Layers[i]
-# 			layer_next = Layers[i+1]
-# 			flag = merge_layer(layer, layer_next)
-# 			if flag == True:
-# 				print("################")
-# 				if layer_next == []:
-# 					Layers.pop(i+1)
-# 				if layer == []:
-# 					Layers.pop(i)
-# 				new_seq = []
-# 				for layer in Layers:	
-# 					new_seq = new_seq+layer
-# 				Layers = Layer_Classify(new_seq,width,0)
-# 				break
-	
-# 	new_seq = []
-	
-# 	# for layer in Layers:	
-# 	# 	print(layer)
-# 	for layer in Layers:
-# 		new_seq = new_seq+layer
-# 	return new_seq
 
 def Simplify_GateSequence(Gate_seq, width):
 	Wires = [[] for i in range(width)]
@@ -237,7 +157,7 @@ def Simplify_Wire(Wires,Eliminated_Index,width, whole_flag):
 										break
 								if Flag == True:
 									break
-						elif gate[1] == "H" or gate[1] == "X":
+						elif gate[1] in ["H", "X", "Y", "Z"]:
 							Eliminated_Index[gate[0]] = 1
 							Eliminated_Index[gate_next[0]] = 1
 							print([gate[0],gate_next[0], gate[1]])
@@ -251,19 +171,6 @@ def Simplify_Wire(Wires,Eliminated_Index,width, whole_flag):
 		Wires[w] = wire_gates
 
 	return whole_flag
-
-# def GateSeq_To_QsharpVersion(Gate_seq, f, index0):
-
-#     index0 = INDEX0
-#     for gate in Gate_seq:
-#         if gate[0] == "TD":
-#             f.write("Adjoint T(x[%d]);\n"%(gate[1][0-index0]))
-#         elif gate[0] == "CNOT":
-#             f.write("CNOT(x[%d],x[%d]);\n"%(gate[1][0-index0],gate[1][1-index0]))
-#         else:
-#             f.write("%s(x[%d]);\n"%(gate[0],gate[1][0-index0]))
-
-#     f.close()
 
 def TDepth_Eval(Gate_seq, width):
 	Wires_TDepth=[0]*width
@@ -639,7 +546,7 @@ def File_Output_Layers_QASM(Layers, width, filename, end_symbol="\n"):
 				barrier_str = "barrier " + ",".join(qubits) + ";"
 				cnt += 1
 				layer_gates += [measure_str, barrier_str]
-			# "H", "S", "SD", "X"
+			# "H", "S", "SD", "X", "Y", "Z"
 			else:
 				if gate[0] == "SD":
 					gate[0] = "sdg"
@@ -728,7 +635,7 @@ def Metrics_Present(Gate_seq, width):
 	print("######### The Costs of the Circuit ###########")
 
 	for gate in Gate_seq:
-		if gate[0] == "X" or gate[0] == "S" or gate[0] == "SD" or gate[0] == "H":
+		if gate[0] in ["X", "Y", "Z", "S", "SD", "H"]:
 			OneClifford_count += 1
 		elif gate[0] == "CNOT":
 			CNOT_count += 1
@@ -753,14 +660,16 @@ def Metrics_Present(Gate_seq, width):
 
 """
 Clifforf+T gates, from ours to QASM format
-Ours: (X, H, S, SD,  T, TD,  CNOT) + MM
-QASM: (x, h, s, sdg, t, tdg, cx)   + (measure, barrier)
+Ours: (X, Y, Z, H, S, SD,  T, TD,  CNOT) + MM
+QASM: (x, y, z, h, s, sdg, t, tdg, cx)   + (measure, barrier)
 #################### rules ####################
 Ours like "H(5),CNOT(3,4),X(25),MM(24,16,17)"
 """
 def Ours_to_QASM_CliffordT(s, filename):
     ours_gates_map = {
          "X" : "x"
+        , "Y" : "y"
+        , "Z" : "z"
         , "H" : "h"
         , "S" : "s"
         , "SD" : "sdg"
@@ -807,8 +716,8 @@ def Ours_to_QASM_CliffordT(s, filename):
 
 """
 Clifforf+T gates, from QASM to ours format
-QASM: (x, h, s, sdg, t, tdg, cx)   + (measure, barrier)
-Ours: (X, H, S, SD,  T, TD,  CNOT) + MM
+QASM: (x, y, z, h, s, sdg, t, tdg, cx)   + (measure, barrier)
+Ours: (X, Y, Z, H, S, SD,  T, TD,  CNOT) + MM
 #################### *.qasm rules ####################
 qubits use "q", classical bits use "c"
 one row only has one gate, end with ";"
@@ -839,6 +748,8 @@ def QASM_to_Ours_CliffordT(filename):
     # the rules for gates mapping
     qasm_gates_map = {
         "x" : "X"
+        , "y" : "Y"
+        , "z" : "Z"
         , "h" : "H"
         , "s" : "S"
         , "sdg" : "SD"
@@ -872,9 +783,10 @@ def QASM_to_Ours_CliffordT(filename):
         i += 1
 
     return ",".join(gates)
+
 ##########################################################################
 
-circuits_names = ['C7X_gates', 'SHA3_gates_12NOT', 'SHA3_eprint2023', 'AES_9qubits', 'AES_AC22_T3_C0', 'AES_AC22_T3_C1', 'AES_AC23_1_C0', 'AES_AC23_1_C1', 'AES_AC23_2_C0', 'AES_AC23_2_C1', 'AES_TC24_T4_C0', 'AES_TC24_T4_C1', 'AES_TC24_T3_C1', 'AES_T3_C0', 'AES_T3_C1', 'AES_T4_C0', 'AES_T4_C1']
+circuits_names = ['C7X_gates', 'SHA3_gates_12NOT', 'SHA3_eprint2023', 'AES_9qubits', 'AES_Tpar_9qubit', 'AES_pair_16qubit', 'AES_pair_16qubit_Sim_Tpar', 'AES_AC22_T3_C0', 'AES_AC22_T3_C1', 'AES_AC23_1_C0', 'AES_AC23_1_C1', 'AES_AC23_2_C0', 'AES_AC23_2_C1', 'AES_TC24_T4_C0', 'AES_TC24_T4_C1', 'AES_TC24_T3_C1', 'AES_T3_C0', 'AES_T3_C1', 'AES_T4_C0', 'AES_T4_C1']
 
 for name in circuits_names:
 	input_filename = f"./CliffordT_quantum_circuit/{name}_CliffordT.qasm"

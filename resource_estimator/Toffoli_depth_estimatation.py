@@ -752,7 +752,7 @@ def QASM_to_Ours_NCT(filename):
 
 ##################################################################
 
-circuits_names = ['C7X_gates', 'SHA3_gates_12NOT', 'AES_9qubits', 'AES_AC23_1', 'AES_AC23_2', 'AES_TF3_C0', 'AES_TF3_C1', 'AES_TF4_C0', 'AES_TF4_C1']
+circuits_names = ['C7X_gates', 'SHA3_gates_12NOT', 'AES_9qubits', 'AES_pair_16qubit', 'AES_AC23_1', 'AES_AC23_2', 'AES_TF3_C0', 'AES_TF3_C1', 'AES_TF4_C0', 'AES_TF4_C1']
 
 for name in circuits_names:
 	input_filename = f"./NCT_quantum_circuit/{name}_NCT.qasm"
