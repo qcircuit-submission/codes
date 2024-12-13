@@ -51,7 +51,7 @@ The following steps explain how to generate the data for Tables 8 and 9 using th
 
   b) The T-depths in Table 9 are calculated by the formula $11\times TD$, where $TD$ is the T-depth of the S-box implementation. $TD=3$ for all these circuits.
 
-- There is a bug about the width outputted by ProjectQ (see https://github. for details.), 
+- There is a bug about the width outputted by ProjectQ (see https://github.com/qcircuit-submission/codes/blob/main/encryption_and_grover_oracle_ProjectQ/Width_Bug_ProjectQ.pdf for details.), 
 
   hence the output Max. width (number of qubits) is not the correct width.
 
