@@ -19,18 +19,15 @@ The following steps explain how to generate the data for Tables 8 and 9 using th
 
 1. **First Row of Table 9**
    Run the following script:
-
    ```
    python TC24_Enc_AES128_IU.py
    ```
 
 2. **Second Row of Table 9**
    Run the following script:
-
    ```
    python ours_Enc_AES128_IU.py
    ```
-
 
 
 ## In the outputs:
