@@ -9,8 +9,8 @@ python3 verify_NCT_circuit.py
 ```
 ## 1. Generating new minimal-T-depth quantum circuits
 
-In `minimal_Tdepth_ASCON_SKINNY_codes/`, we use `Max-Covers` SAT-based method to get the classical implementation
-SKINNY128 S-box: AND-depth-3
+In `minimal_Tdepth_ASCON_SKINNY_codes/`, we use the`Max-Covers` SAT-based method to get the classical implementations for the SKINNY-128 S-box and the ASCON S-box.
+SKINNY-128 S-box: AND-depth-3
 ASCON S-box:    AND-depth-1
 
 We provide the output file `covers_eqs/*.out` from the SAT Solver to get classical result:
@@ -25,7 +25,7 @@ If you want to [generate, convert, solve] Boolean equations and get the result, 
 (2) the SAT Solver: Kissat
     [https://github.com/arminbiere/kissat]
 
-Then uncomment three lines(35, 36, 37)/(64, 65, 66) in `Sbox_classical.py` and run code again
+Then uncomment three lines(35, 36, 37)/(64, 65, 66) in `Sbox_classical.py` and run the code again
 line-35: generate *.eqs         (code)
 line-36: convert *.eqs to *.cnf (bosphorus)
 line-36: solve *.cnf to *.out   (kissat)
@@ -36,7 +36,7 @@ line-36: solve *.cnf to *.out   (kissat)
 # os.system(f"./kissat {prefix}.cnf > {prefix}.out --sat")
 ```
 
-We use `ClassicalToQuantum` method to convert classical to forward NCT circuit
+We use the`ClassicalToQuantum` algorithm to convert classical circuits to forward NCT circuits
 
 ```sh
 python3 Sbox_quantum.py
@@ -46,12 +46,12 @@ Then generate Clifford+T circuit and layer structure.
 
 At last, we obtain 
 
-1) the Toffoli-depth-1 NCT circuit and T-depth-1 Clifford+T circuit for the ASCON S-box,
-2) the Toffoli-depth-3 NCT circuit and T-depth-3 Clifford+T circuit for the SKINNY-128 S-box.
+1) A Toffoli-depth-1 NCT circuit (width 15, including uncomputation) and a T-depth-1 Clifford+T circuit (width 20, including uncomputation) for the ASCON S-box,
+2) A Toffoli-depth-5 NCT circuit (width 25, including uncomputation) and a T-depth-3 Clifford+T circuit (width 29, including uncomputation) for the SKINNY-128 S-box.
 
 ## 2. Generating new minimal-width quantum circuits
 
-In  `minimal_width_ASCON_codes/`, we use SAT-based method to get the ASCON Sbox(5-qubit, 7-Toffoli gates)
+In  `minimal_width_ASCON_codes/`, we use the SAT-based method to get the minimal-width NCT circuit for the ASCON Sbox (setting width=5, Toffoli-count=7).
 
 ```sh
 python3 minimal_width_SAT.py
@@ -69,10 +69,10 @@ For SKINNY-128, we use the tensor decomposition tool given in [35] to obtain the
 
 By decomposing MCT gates accordingly,  we obtain 
 
-1) the 5-qubit NCT circuit and 5-qubit Clifford+T circuit for the ASCON S-box,
-2) the 8-qubit NCT circuit and 8-qubit Clifford+T circuit for the SKINNY-128 S-box.
+1) A 5-qubit NCT circuit (Toffoli-depth 7)and a 5-qubit Clifford+T circuit (T-depth 21)for the ASCON S-box,
+2) An 8-qubit NCT circuit (Toffoli-depth 1092) and an 8-qubit Clifford+T circuit (T-depth 1901) for the SKINNY-128 S-box.
 
 ## 3. New NCT and Clifford+T circuits for ASCON and SKINNY-128
 
-In  `ASCON+SKINNY_Circuits/`, we provide the sepcific NCT circuits and Clifford+T circuits for the ASCON S-box and the SKINNY-128 S-box in .qasm format.
+In  `ASCON+SKINNY_Circuits/`, we provide the sepcific NCT circuits and Clifford+T circuits for the ASCON S-box and the SKINNY-128 S-box in .qasm format. There specific quantum resource costs can be found in `Clifford+T_Costs_ASCON+SKINNY.txt` and `NCT_Costs_ASCON+SKINNY.txt`.
 
